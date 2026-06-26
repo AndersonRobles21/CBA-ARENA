@@ -1,0 +1,8 @@
+{
+  "name": "reservas-de-recursos-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend run build"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,66 @@
+<section class="section-shell">
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h1>Equipos</h1>
+        <p>Administra equipos inscritos en tus torneos.</p>
+      </div>
+      <button class="primary-button" type="button" (click)="resetForm()">Nuevo equipo</button>
+    </div>
+
+    <form class="entity-form" (ngSubmit)="guardar()">
+      <div class="field-grid">
+        <label>
+          Nombre del equipo
+          <input type="text" [(ngModel)]="nombre" name="nombre" required />
+        </label>
+        <label>
+          Región
+          <input type="text" [(ngModel)]="region" name="region" />
+        </label>
+        <label>
+          Integrantes
+          <input type="number" [(ngModel)]="integrantes" name="integrantes" min="1" required />
+        </label>
+        <label class="full-width">
+          Torneo
+          <select [(ngModel)]="torneo_id" name="torneo_id" required>
+            <option value="" disabled>Selecciona un torneo</option>
+            <option *ngFor="let torneo of torneos" [value]="torneo.id">{{ torneo.nombre }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-button" type="submit">{{ isEditing ? 'Actualizar equipo' : 'Crear equipo' }}</button>
+        <button class="secondary-button" type="button" (click)="resetForm()" *ngIf="isEditing">Cancelar</button>
+      </div>
+      <p class="message" *ngIf="mensaje">{{ mensaje }}</p>
+    </form>
+
+    <div class="list-card">
+      <div class="list-header">
+        <h2>Lista de equipos</h2>
+        <span>{{ equipos.length }} equipos</span>
+      </div>
+
+      <div *ngIf="cargando" class="loader">Cargando equipos...</div>
+      <div *ngIf="!cargando && equipos.length === 0" class="empty-state">No hay equipos registrados.</div>
+
+      <div class="grid-list" *ngIf="!cargando && equipos.length > 0">
+        <article class="card" *ngFor="let equipo of equipos">
+          <div class="card-head">
+            <strong>{{ equipo.nombre }}</strong>
+            <span class="tag">{{ equipo.torneo || 'Sin torneo' }}</span>
+          </div>
+          <p class="meta">Región: {{ equipo.region || 'Desconocida' }}</p>
+          <p class="meta">Integrantes: {{ equipo.integrantes }}</p>
+          <div class="card-actions">
+            <button type="button" (click)="prepararEdicion(equipo)">Editar</button>
+            <button type="button" class="danger" (click)="eliminar(equipo.id)">Eliminar</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

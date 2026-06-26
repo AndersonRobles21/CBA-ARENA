@@ -1,0 +1,86 @@
+<section class="section-shell">
+  <div class="panel">
+    <div class="panel-header">
+      <div>
+        <h1>Partidas</h1>
+        <p>Agenda, edita y registra resultados de partidas en tus torneos.</p>
+      </div>
+      <button class="primary-button" type="button" (click)="resetForm()">Nueva partida</button>
+    </div>
+
+    <form class="entity-form" (ngSubmit)="guardar()">
+      <div class="field-grid">
+        <label>
+          Torneo
+          <select [(ngModel)]="torneo_id" name="torneo_id" required>
+            <option value="" disabled>Selecciona un torneo</option>
+            <option *ngFor="let torneo of torneos" [value]="torneo.id">{{ torneo.nombre }}</option>
+          </select>
+        </label>
+        <label>
+          Equipo A
+          <select [(ngModel)]="equipo_a_id" name="equipo_a_id" required>
+            <option value="" disabled>Equipo A</option>
+            <option *ngFor="let equipo of equipos" [value]="equipo.id">{{ equipo.nombre }}</option>
+          </select>
+        </label>
+        <label>
+          Equipo B
+          <select [(ngModel)]="equipo_b_id" name="equipo_b_id" required>
+            <option value="" disabled>Equipo B</option>
+            <option *ngFor="let equipo of equipos" [value]="equipo.id">{{ equipo.nombre }}</option>
+          </select>
+        </label>
+        <label>
+          Fecha y hora
+          <input type="datetime-local" [(ngModel)]="fecha" name="fecha" />
+        </label>
+      </div>
+
+      <label class="full-width">
+        Resultado
+        <input type="text" [(ngModel)]="resultado" name="resultado" placeholder="Ej. 2-1" />
+      </label>
+
+      <label class="full-width">
+        Estado
+        <select [(ngModel)]="estado" name="estado">
+          <option value="pendiente">Pendiente</option>
+          <option value="finalizada">Finalizada</option>
+        </select>
+      </label>
+
+      <div class="form-actions">
+        <button class="primary-button" type="submit">{{ isEditing ? 'Actualizar partida' : 'Crear partida' }}</button>
+        <button class="secondary-button" type="button" (click)="resetForm()" *ngIf="isEditing">Cancelar</button>
+      </div>
+      <p class="message" *ngIf="mensaje">{{ mensaje }}</p>
+    </form>
+
+    <div class="list-card">
+      <div class="list-header">
+        <h2>Calendario de partidas</h2>
+        <span>{{ partidas.length }} partidas</span>
+      </div>
+
+      <div *ngIf="cargando" class="loader">Cargando partidas...</div>
+      <div *ngIf="!cargando && partidas.length === 0" class="empty-state">No hay partidas programadas.</div>
+
+      <div class="grid-list" *ngIf="!cargando && partidas.length > 0">
+        <article class="card" *ngFor="let partida of partidas">
+          <div class="card-head">
+            <strong>{{ partida.torneo || 'Sin torneo' }}</strong>
+            <span class="tag">{{ partida.estado }}</span>
+          </div>
+          <p class="meta">{{ partida.equipo_a || 'Equipo A' }} vs {{ partida.equipo_b || 'Equipo B' }}</p>
+          <p>Fecha: {{ partida.fecha || 'No programada' }}</p>
+          <p>Resultado: {{ partida.resultado || 'Pendiente' }}</p>
+          <div class="card-actions">
+            <button type="button" (click)="prepararEdicion(partida)">Editar</button>
+            <button type="button" class="danger" (click)="eliminar(partida.id)">Eliminar</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

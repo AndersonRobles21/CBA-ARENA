@@ -1,0 +1,43 @@
+<section class="dashboard-shell">
+  <div class="dashboard-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen rápido de tus torneos, equipos y partidas en CBA Arena.</p>
+    </div>
+    <button type="button" (click)="cargarEstadisticas()">Actualizar</button>
+  </div>
+
+  <div *ngIf="error" class="banner-error">{{ error }}</div>
+  <div *ngIf="cargando" class="banner-loading">Cargando métricas...</div>
+
+  <div *ngIf="estadisticas" class="stats-grid">
+    <article class="stat-card">
+      <span class="stat-label">Torneos</span>
+      <strong>{{ estadisticas.totalTorneos }}</strong>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">Equipos</span>
+      <strong>{{ estadisticas.totalEquipos }}</strong>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">Partidas</span>
+      <strong>{{ estadisticas.totalPartidas }}</strong>
+    </article>
+  </div>
+
+  <section class="recent-card" *ngIf="estadisticas?.ultimosTorneos?.length">
+    <h2>Últimos torneos creados</h2>
+    <div class="recent-list">
+      <article *ngFor="let torneo of estadisticas?.ultimosTorneos" class="recent-item">
+        <div>
+          <strong>{{ torneo.nombre }}</strong>
+          <span>{{ torneo.juego }}</span>
+        </div>
+        <div>
+          <span>{{ torneo.fecha_inicio || 'Sin fecha' }}</span>
+          <span class="tag">{{ torneo.estado }}</span>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

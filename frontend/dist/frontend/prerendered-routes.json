@@ -1,0 +1,12 @@
+{
+  "routes": {
+    "/": {},
+    "/dashboard": {},
+    "/equipos": {},
+    "/login": {},
+    "/partidas": {},
+    "/perfil": {},
+    "/register": {},
+    "/torneos": {}
+  }
+}

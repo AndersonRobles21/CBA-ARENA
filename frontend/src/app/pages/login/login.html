@@ -1,0 +1,21 @@
+<section class="auth-page">
+  <h1>Bienvenido a CBA Arena</h1>
+  <p class="auth-subtitle">Accede a tu panel de torneos, equipos y partidas.</p>
+  <form (ngSubmit)="login()" novalidate>
+    <label>
+      Correo
+      <input type="email" [(ngModel)]="correo" name="correo" required />
+    </label>
+    <label>
+      Contraseña
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </label>
+    <button type="submit">Ingresar</button>
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+
+  <div class="auth-actions">
+    <a routerLink="/register">Crear cuenta</a>
+    <a routerLink="/dashboard">Ver demo</a>
+  </div>
+</section>
