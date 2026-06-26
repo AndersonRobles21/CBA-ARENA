@@ -48,4 +48,7 @@ app.get('/api', async (_req, res) => {
   }
 });
 
-export default app;
+// Exportar un handler explícito compatible con Vercel
+export default (req: any, res: any) => {
+  return app(req, res);
+};
